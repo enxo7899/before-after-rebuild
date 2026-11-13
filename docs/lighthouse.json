@@ -1,0 +1,112 @@
+{
+  "generatedAt": "2026-11-13T14:08:48.779Z",
+  "tool": "lighthouse 12.8.2",
+  "preset": "mobile (Moto G Power emulation, simulated slow 4G, 4x CPU slowdown: Lighthouse defaults)",
+  "runsPerPage": 3,
+  "aggregate": "median of each metric across runs",
+  "servedFrom": "local http server on 127.0.0.1, no compression, same for both sites",
+  "pages": {
+    "before": {
+      "url": "before/index.html",
+      "performance": 73,
+      "accessibility": 68,
+      "bestPractices": 86,
+      "seo": 82,
+      "fcpMs": 1836,
+      "lcpMs": 87683,
+      "speedIndexMs": 1848,
+      "cls": 0,
+      "tbtMs": 109,
+      "totalBytes": 19018345,
+      "runs": [
+        {
+          "performance": 73,
+          "accessibility": 68,
+          "bestPractices": 82,
+          "seo": 82,
+          "fcpMs": 1848,
+          "lcpMs": 87756,
+          "speedIndexMs": 1848,
+          "cls": 0,
+          "tbtMs": 109,
+          "totalBytes": 19018502
+        },
+        {
+          "performance": 72,
+          "accessibility": 68,
+          "bestPractices": 86,
+          "seo": 82,
+          "fcpMs": 1710,
+          "lcpMs": 87680,
+          "speedIndexMs": 1808,
+          "cls": 0,
+          "tbtMs": 188,
+          "totalBytes": 19018345
+        },
+        {
+          "performance": 74,
+          "accessibility": 68,
+          "bestPractices": 86,
+          "seo": 82,
+          "fcpMs": 1836,
+          "lcpMs": 87683,
+          "speedIndexMs": 2055,
+          "cls": 0,
+          "tbtMs": 54,
+          "totalBytes": 19018345
+        }
+      ]
+    },
+    "after": {
+      "url": "after/index.html",
+      "performance": 100,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "seo": 100,
+      "fcpMs": 622,
+      "lcpMs": 1204,
+      "speedIndexMs": 622,
+      "cls": 0,
+      "tbtMs": 16,
+      "totalBytes": 66632,
+      "runs": [
+        {
+          "performance": 100,
+          "accessibility": 100,
+          "bestPractices": 100,
+          "seo": 100,
+          "fcpMs": 622,
+          "lcpMs": 1204,
+          "speedIndexMs": 622,
+          "cls": 0,
+          "tbtMs": 0,
+          "totalBytes": 66632
+        },
+        {
+          "performance": 100,
+          "accessibility": 100,
+          "bestPractices": 100,
+          "seo": 100,
+          "fcpMs": 615,
+          "lcpMs": 1202,
+          "speedIndexMs": 615,
+          "cls": 0,
+          "tbtMs": 16,
+          "totalBytes": 66632
+        },
+        {
+          "performance": 100,
+          "accessibility": 100,
+          "bestPractices": 100,
+          "seo": 100,
+          "fcpMs": 632,
+          "lcpMs": 1229,
+          "speedIndexMs": 632,
+          "cls": 0,
+          "tbtMs": 33,
+          "totalBytes": 66632
+        }
+      ]
+    }
+  }
+}

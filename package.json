@@ -1,0 +1,21 @@
+{
+  "name": "before-after-rebuild",
+  "version": "1.0.0",
+  "description": "An old small-business site rebuilt to be fast, mobile-friendly, accessible and editable from one JSON file, with Lighthouse scores measured before and after.",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "images": "node scripts/make-images.mjs",
+    "lighthouse": "node scripts/lighthouse.mjs",
+    "test": "node --test tests/*.test.js",
+    "dev": "python3 -m http.server 5181 --bind 127.0.0.1",
+    "screenshots": "node scripts/screenshots.mjs"
+  },
+  "license": "MIT",
+  "author": "EmSoft",
+  "devDependencies": {
+    "chrome-launcher": "^1.2.3",
+    "lighthouse": "^12.2.1",
+    "sharp": "^0.33.5"
+  }
+}

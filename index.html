@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Website rebuild: before and after | EmSoft</title>
+<meta name="description" content="A dated small-business website rebuilt to be fast, readable on phones, accessible and editable from one JSON file, with Lighthouse scores measured before and after.">
+<link rel="icon" href="data:,">
+<link rel="preload" href="after/fonts/karla.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:Karla;src:url(after/fonts/karla.woff2) format("woff2");font-weight:200 800;font-display:swap}
+@font-face{font-family:"Azeret Mono";src:url(after/fonts/azeret-mono.woff2) format("woff2");font-weight:100 900;font-display:swap}
+:root{--paper:#f5efe3;--card:#fcf9f2;--ink:#241c15;--muted:#62523f;--line:#d9cdb5;--accent:#a3412a;--old:#6b6b6b;--sans:Karla,system-ui,sans-serif;--mono:"Azeret Mono",ui-monospace,Menlo,monospace}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 1.0625rem/1.55 var(--sans)}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.wrap{max-width:72rem;margin:0 auto;padding:0 1rem}
+.demo{border-bottom:1px solid var(--line);font-size:.9rem;color:var(--muted)}
+.demo .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.3rem 1.5rem;padding-top:.6rem;padding-bottom:.6rem}
+.demo b{color:var(--ink)}
+h1{font:700 clamp(2rem,5vw,3.3rem)/1.05 var(--sans);letter-spacing:-.02em;margin:2.2rem 0 .8rem;max-width:20ch}
+h2{font:700 1.6rem/1.2 var(--sans);margin:0 0 .4rem;letter-spacing:-.01em}
+h3{font-size:1rem;margin:0 0 .3rem}
+.lede{font-size:1.2rem;max-width:62ch;color:var(--muted);margin:0 0 1.2rem}
+section{padding:2.6rem 0;border-top:1px solid var(--line)}
+section>.wrap>p{max-width:64ch}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.keynums{display:flex;flex-wrap:wrap;gap:.4rem 2.2rem;margin:0 0 1.4rem;padding:0;list-style:none;font-size:1rem}
+.keynums b{font:600 1.05rem var(--mono)}
+.seg{display:inline-flex;border:2px solid var(--ink);border-radius:6px;overflow:hidden}
+.seg button{font:inherit;font-weight:700;background:transparent;color:var(--ink);border:0;padding:.5rem 1rem;cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--ink);color:var(--paper)}
+.tools{display:flex;flex-wrap:wrap;gap:.6rem 1.4rem;align-items:center;margin:1rem 0}
+select,input[type=number],input[type=time],input[type=text]{font:inherit;padding:.5rem .6rem;border:1px solid #85755d;border-radius:5px;background:#fff;color:var(--ink)}
+.frames{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;justify-items:center}
+.frame{width:100%;display:flex;flex-direction:column;align-items:center}
+.frame h3{align-self:flex-start;display:flex;gap:.6rem;align-items:baseline}
+.tag{font:600 .8rem var(--mono);padding:.1rem .45rem;border-radius:4px;border:1px solid currentColor}
+.tag.old{color:var(--old)}.tag.new{color:var(--accent)}
+.screen{border:1px solid var(--ink);border-radius:8px;overflow:hidden;background:#fff;position:relative}
+.screen iframe{border:0;transform-origin:0 0;display:block;background:#fff}
+.note{font-size:.92rem;color:var(--muted);max-width:44ch;margin:.5rem 0 0;align-self:flex-start}
+@media(max-width:52rem){.frames{grid-template-columns:1fr}}
+.slider{position:relative;width:min(100%,390px);aspect-ratio:390/844;margin:1rem 0 0;border:1px solid var(--ink);border-radius:8px;overflow:hidden;background:#fff;touch-action:pan-y;user-select:none}
+.slider img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;border-radius:0;pointer-events:none}
+.slider .top{clip-path:inset(0 0 0 var(--pos,50%))}
+.slider .bar{position:absolute;top:0;bottom:0;left:var(--pos,50%);width:3px;margin-left:-1.5px;background:var(--accent);pointer-events:none}
+.slider .bar::after{content:"";position:absolute;top:50%;left:50%;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;background:var(--accent);border:3px solid #fff}
+.slider input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0}
+.slider:focus-within{outline:3px solid var(--accent);outline-offset:3px}
+.sl-lab{position:absolute;top:8px;font:600 .75rem var(--mono);background:#241c15;color:#fff;padding:.15rem .4rem;border-radius:4px;z-index:2}
+.split{display:grid;grid-template-columns:minmax(0,24rem) minmax(0,1fr);gap:2rem 3rem;align-items:start}
+@media(max-width:52rem){.split{grid-template-columns:1fr}}
+table{border-collapse:collapse;width:100%;font-size:1rem}
+caption{text-align:left;color:var(--muted);padding-bottom:.5rem}
+th,td{padding:.55rem .6rem;border-bottom:1px solid var(--line);text-align:right}
+th:first-child,td:first-child{text-align:left}
+thead th{font-size:.85rem;text-transform:none;color:var(--muted);border-bottom:2px solid var(--ink)}
+td.n{font-family:var(--mono);font-variant-numeric:tabular-nums}
+td.better{font-weight:700;color:var(--accent)}
+.weight{margin:1.6rem 0 0}
+.bar-row{display:grid;grid-template-columns:5rem 1fr 7rem;gap:.8rem;align-items:center;margin:.4rem 0}
+.bar-row .track{height:1.1rem;background:transparent}
+.bar-row .fill{height:100%;min-width:3px;background:var(--old)}
+.bar-row.after .fill{background:var(--accent)}
+.bar-row span:last-child{text-align:right}
+details{margin-top:1.2rem;max-width:64ch}
+summary{cursor:pointer;font-weight:700}
+code,pre{font-family:var(--mono);font-size:.88rem}
+pre{background:var(--card);border:1px solid var(--line);padding:.8rem;overflow:auto;border-radius:6px;margin:.6rem 0}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:1.2rem}
+.panel label{display:block;font-weight:700;font-size:.92rem;margin:.8rem 0 .2rem}
+.panel label:first-child{margin-top:0}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.chk{display:flex!important;gap:.5rem;align-items:center;font-weight:400!important}
+.errs{margin:.8rem 0 0;padding:.6rem .8rem;border-left:4px solid #9b1c1c;background:#fbe9e5;color:#6d1212;font-weight:700;min-height:0}
+.errs:empty{display:none}
+.okline{margin:.8rem 0 0;color:#1d6a3a;font-weight:700}
+.diff{margin:.8rem 0 0}
+.diff div{font:.85rem/1.5 var(--mono);white-space:pre-wrap;word-break:break-word}
+.diff .del{color:#7a2020}.diff .add{color:#1d5a35}
+.btnrow{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.9rem}
+.btn{font:inherit;font-weight:700;background:var(--accent);color:#fff;border:0;border-radius:6px;padding:.55rem 1rem;cursor:pointer}
+.btn.alt{background:transparent;color:var(--accent);border:2px solid var(--accent)}
+.preview{width:100%;border:1px solid var(--ink);border-radius:8px;overflow:hidden;background:#fff}
+.preview iframe{width:100%;height:640px;border:0;display:block}
+footer{border-top:1px solid var(--line);padding:2rem 0 3rem;color:var(--muted);font-size:.95rem}
+</style>
+</head>
+<body>
+<div class="demo"><div class="wrap"><span><b>Live demo by EmSoft.</b> Furra Gjoni is a fictional bakery and café in Shkodër.</span><a href="https://github.com/enxo7899/before-after-rebuild">Source on GitHub</a></div></div>
+
+<header class="wrap">
+<h1>Same bakery, same words. Rebuilt so it loads, reads and edits.</h1>
+<p class="lede">The old site is a 2012-style table layout with oversized images and no phone support. The rebuilt one keeps every word and price, and the owner changes them in one file. Every number below comes from a script in this repo.</p>
+<ul class="keynums" id="keynums" aria-live="polite"></ul>
+</header>
+
+<section id="live"><div class="wrap">
+<h2>1. Open both sites</h2>
+<p>Real pages, loaded live. Scroll inside either one.</p>
+<div class="tools">
+<div class="seg" role="group" aria-label="Screen size"><button type="button" data-mode="phone" aria-pressed="true">Phone width</button><button type="button" data-mode="desktop" aria-pressed="false">Desktop width</button></div>
+<label>Page <select id="pageSel"><option value="index.html">Home</option><option value="menu.html">Menu</option><option value="about.html">About</option><option value="contact.html">Contact</option></select></label>
+</div>
+<div class="frames">
+<div class="frame"><h3>Before <span class="tag old">before/</span></h3><div class="screen" id="scrB"><iframe id="frB" title="Old site" loading="lazy"></iframe></div><p class="note" id="noteB"></p></div>
+<div class="frame"><h3>After <span class="tag new">after/</span></h3><div class="screen" id="scrA"><iframe id="frA" title="Rebuilt site" loading="lazy"></iframe></div><p class="note" id="noteA"></p></div>
+</div>
+</div></section>
+
+<section id="slide"><div class="wrap">
+<h2>2. Drag to compare on a phone</h2>
+<p>Screenshots of both home pages on an iPhone 13, taken by <code>npm run screenshots</code>. The old page has no viewport tag, so the phone shows the full 980 pixel layout shrunk until the text is unreadable.</p>
+<div class="slider" id="slider" style="--pos:50%">
+<img src="docs/slider-before.png" alt="The old home page on a phone: a tiny, zoomed-out desktop layout" width="780" height="1688" decoding="async">
+<img class="top" src="docs/slider-after.png" alt="The rebuilt home page on a phone: large readable text, hero image and menu prices" width="780" height="1688" decoding="async">
+<span class="sl-lab" style="left:8px">BEFORE</span><span class="sl-lab" style="right:8px">AFTER</span>
+<div class="bar"></div>
+<input type="range" min="0" max="100" value="50" aria-label="Comparison position: drag left to see more of the rebuilt site, right to see more of the old one">
+</div>
+</div></section>
+
+<section id="scores"><div class="wrap">
+<h2>3. Measured, not claimed</h2>
+<p id="howline">Loading results…</p>
+<div style="overflow-x:auto"><table id="lhTable"><caption>Lighthouse, home page, mobile preset. Median of the runs.</caption>
+<thead><tr><th scope="col">Metric</th><th scope="col">Before</th><th scope="col">After</th></tr></thead><tbody></tbody></table></div>
+<div class="weight" id="weight"><h3>Page weight, home page</h3></div>
+<details><summary>How this was measured</summary>
+<p id="method"></p>
+<pre>npm install
+npm run lighthouse   # writes docs/lighthouse.json</pre>
+<p>Local measurements on a laptop-class machine are not field data from real visitors, and absolute times vary between machines. The gap between the sites is what matters: it comes from unoptimised 2400 pixel PNGs against small AVIF images, two fonts and a few KB of HTML.</p></details>
+</div></section>
+
+<section id="edit"><div class="wrap">
+<h2>4. Try editing it</h2>
+<p>This is a copy of <code>content/site.json</code>. Change a price or an opening hour and the rebuilt page is generated again in your browser, with the same function that builds the real site. Then try to break it: set a price to zero, or close before opening.</p>
+<div class="split">
+<div class="panel">
+<label for="fPrice">Trileçe price (lek)</label><input id="fPrice" type="text" inputmode="numeric" autocomplete="off" style="width:8rem">
+<label>Monday to Friday</label>
+<div class="row2"><div><label for="fOpen" style="margin-top:0">Opens</label><input id="fOpen" type="time"></div><div><label for="fClose" style="margin-top:0">Closes</label><input id="fClose" type="time"></div></div>
+<label class="chk"><input id="fSun" type="checkbox"> Closed on Sundays</label>
+<label for="fTag">Tagline</label><input id="fTag" type="text" style="width:100%">
+<div class="btnrow"><button class="btn alt" type="button" id="bad1">Try a price of 0</button><button class="btn alt" type="button" id="bad2">Try closing before opening</button><button class="btn alt" type="button" id="reset">Reset</button></div>
+<div class="errs" id="errs" role="alert"></div><div class="okline" id="okline" hidden></div>
+<div class="diff" id="diff" aria-label="Changes to site.json"></div>
+</div>
+<div><div class="tools" style="margin-top:0"><label>Preview <select id="prevSel"><option value="index.html">Home</option><option value="menu.html" selected>Menu</option><option value="contact.html">Contact</option></select></label><span class="note" style="margin:0">Rebuilt in the browser from the edited JSON.</span></div>
+<div class="preview"><iframe id="prev" title="Preview of the rebuilt page with your edit"></iframe></div></div>
+</div>
+</div></section>
+
+<footer><div class="wrap">Built by <b><a href="https://github.com/enxo7899">EmSoft</a></b>: website rebuilds that are fast, accessible and editable by the owner. Get in touch through my Fiverr or Upwork profile.</div></footer>
+
+<script type="module">
+import { renderPages } from "./src/render.mjs";
+import { validateSite } from "./src/validate.mjs";
+const $ = (s) => document.querySelector(s);
+const fmtBytes = (n) => n >= 1e6 ? (n / 1e6).toFixed(1) + " MB" : Math.round(n / 1e3) + " KB";
+const fmtMs = (n) => n >= 10000 ? (n / 1000).toFixed(0) + " s" : n >= 1000 ? (n / 1000).toFixed(1) + " s" : n + " ms";
+const params = new URLSearchParams(location.search);
+
+/* 1. live frames */
+let mode = params.get("mode") === "desktop" ? "desktop" : "phone";
+const view = { before: { fr: $("#frB"), scr: $("#scrB"), note: $("#noteB"), dir: "before" }, after: { fr: $("#frA"), scr: $("#scrA"), note: $("#noteA"), dir: "after" } };
+function layout() {
+  document.querySelectorAll(".seg button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.mode === mode)));
+  const col = $(".frame").clientWidth;
+  for (const [k, v] of Object.entries(view)) {
+    let natW, shownW, shownH;
+    if (mode === "phone") { natW = k === "before" ? 980 : 390; shownW = Math.min(390, col); shownH = 640; }
+    else { natW = 1280; shownW = col; shownH = Math.round(col * 0.62); }
+    const s = shownW / natW;
+    v.scr.style.width = shownW + "px"; v.scr.style.height = shownH + "px";
+    v.fr.style.width = natW + "px"; v.fr.style.height = shownH / s + "px"; v.fr.style.transform = `scale(${s})`;
+    v.note.textContent = mode === "phone" ? (k === "before" ? "No viewport tag, so a phone lays this out at 980 px wide and shrinks it to fit, as shown here." : "Laid out at the phone's own width: text stays readable and nothing scrolls sideways.") : "Both at 1280 px wide, scaled to fit.";
+  }
+}
+function load() { const p = $("#pageSel").value; for (const v of Object.values(view)) v.fr.src = `${v.dir}/${p}`; }
+document.querySelectorAll(".seg button").forEach((b) => b.addEventListener("click", () => { mode = b.dataset.mode; layout(); }));
+$("#pageSel").addEventListener("change", load);
+addEventListener("resize", layout);
+layout(); load();
+
+/* 2. slider */
+const sl = $("#slider"), range = sl.querySelector("input");
+range.addEventListener("input", () => sl.style.setProperty("--pos", range.value + "%"));
+if (params.get("slide")) { range.value = params.get("slide"); sl.style.setProperty("--pos", range.value + "%"); }
+
+/* 3. Lighthouse */
+try {
+  const lh = await (await fetch("docs/lighthouse.json")).json();
+  const B = lh.pages.before, A = lh.pages.after;
+  $("#howline").textContent = `${lh.tool}, ${lh.runsPerPage} runs per page, median of each metric. Measured ${lh.generatedAt.slice(0, 10)} against the files in this repo.`;
+  $("#method").textContent = `Preset: ${lh.preset}. Aggregate: ${lh.aggregate}. Served from: ${lh.servedFrom}. Chrome headless with --no-sandbox.`;
+  const rows = [["Performance score", "performance", (v) => v, true], ["Accessibility score", "accessibility", (v) => v, true], ["Best practices score", "bestPractices", (v) => v, true], ["SEO score", "seo", (v) => v, true],
+    ["First contentful paint", "fcpMs", fmtMs, false], ["Largest contentful paint", "lcpMs", fmtMs, false], ["Total blocking time", "tbtMs", fmtMs, false], ["Layout shift (CLS)", "cls", (v) => v, false], ["Page weight", "totalBytes", fmtBytes, false]];
+  $("#lhTable tbody").innerHTML = rows.map(([label, key, f, higher]) => { const b = B[key], a = A[key]; const aBetter = higher ? a > b : a < b; return `<tr><th scope="row" style="font-weight:400">${label}</th><td class="n">${f(b)}</td><td class="n${aBetter ? " better" : ""}">${f(a)}</td></tr>`; }).join("");
+  const max = Math.max(B.totalBytes, A.totalBytes);
+  $("#weight").insertAdjacentHTML("beforeend", [["Before", B.totalBytes, ""], ["After", A.totalBytes, " after"]].map(([l, v, c]) => `<div class="bar-row${c}"><span>${l}</span><div class="track"><div class="fill" style="width:${Math.max(0.4, v / max * 100)}%"></div></div><span class="mono">${fmtBytes(v)}</span></div>`).join("") + `<p class="note" style="max-width:none">The rebuilt page is ${Math.round(B.totalBytes / A.totalBytes)} times lighter. Images are AVIF or WebP at the size each screen needs; the old site sends 2400 by 1600 pixel PNGs.</p>`);
+  $("#keynums").innerHTML = `<li>Page weight <b>${fmtBytes(B.totalBytes)} → ${fmtBytes(A.totalBytes)}</b></li><li>Largest paint <b>${fmtMs(B.lcpMs)} → ${fmtMs(A.lcpMs)}</b></li><li>Accessibility <b>${B.accessibility} → ${A.accessibility}</b></li><li>Performance <b>${B.performance} → ${A.performance}</b></li>`;
+} catch (e) { $("#howline").textContent = "Could not load docs/lighthouse.json. Run npm run lighthouse."; }
+
+/* 4. try editing */
+const orig = await (await fetch("content/site.json")).json();
+const css = (await (await fetch("src/after.css")).text()).replace(/\s*\n\s*/g, "");
+let site = structuredClone(orig);
+const tre = (s) => s.menu.categories[2].items[0];
+function flat(o, p = "", out = {}) { if (o && typeof o === "object") for (const k of Object.keys(o)) flat(o[k], p ? `${p}.${k}` : k, out); else out[p] = o; return out; }
+function readForm() {
+  const s = structuredClone(site);
+  const raw = $("#fPrice").value.trim();
+  tre(s).price = /^-?\d+(\.\d+)?$/.test(raw) ? Number(raw) : NaN;
+  s.hours[0].opens = $("#fOpen").value; s.hours[0].closes = $("#fClose").value;
+  if ($("#fSun").checked) { s.hours[2].opens = null; s.hours[2].closes = null; } else { s.hours[2].opens = orig.hours[2].opens; s.hours[2].closes = orig.hours[2].closes; }
+  s.business.tagline = $("#fTag").value;
+  return s;
+}
+function fillForm(s) { $("#fPrice").value = tre(s).price; $("#fOpen").value = s.hours[0].opens; $("#fClose").value = s.hours[0].closes; $("#fSun").checked = s.hours[2].opens === null; $("#fTag").value = s.business.tagline; }
+let lastGood = structuredClone(orig);
+function apply() {
+  const cand = readForm(), res = validateSite(cand);
+  if (!res.ok) { render(); $("#errs").textContent = "Not saved: " + res.errors.join(" "); $("#okline").hidden = true; $("#diff").innerHTML = `<div class="del">Rejected. The page still shows the last valid version.</div>`; return; }
+  $("#errs").textContent = ""; lastGood = cand;
+  const a = flat(orig), b = flat(cand), lines = [];
+  for (const k of new Set([...Object.keys(a), ...Object.keys(b)])) if (a[k] !== b[k]) lines.push(`<div class="del">- ${k}: ${JSON.stringify(a[k])}</div><div class="add">+ ${k}: ${JSON.stringify(b[k])}</div>`);
+  $("#diff").innerHTML = lines.length ? lines.join("") : `<div>No changes yet. Edit a field.</div>`;
+  $("#okline").hidden = !lines.length; $("#okline").textContent = "Valid. Preview updated.";
+  render();
+}
+function render() {
+  const pages = renderPages(lastGood, { css });
+  const html = pages[$("#prevSel").value].replace(/<link rel="preload"[^>]*>\n?/g, "").replace(/ loading="lazy"/g, "").replace(/\bimg\/([a-z]+-\d+\.(?:avif|webp))/g, new URL("after/img/", location.href).href + "$1").replace("<head>", '<head>\n<base href="after/" target="_blank">');
+  $("#prev").srcdoc = html;
+  $("#prev").onload = () => { const t = $("#prev").contentDocument?.getElementById(location.search.includes("bad") ? "bread" : "sweet"); if ($("#prevSel").value === "menu.html" && t) t.scrollIntoView(); };
+}
+for (const id of ["#fPrice", "#fOpen", "#fClose", "#fSun", "#fTag"]) $(id).addEventListener("input", apply);
+$("#prevSel").addEventListener("change", render);
+$("#bad1").addEventListener("click", () => { $("#fPrice").value = "0"; apply(); });
+$("#bad2").addEventListener("click", () => { $("#fOpen").value = "21:00"; $("#fClose").value = "06:30"; apply(); });
+$("#reset").addEventListener("click", () => { site = structuredClone(orig); fillForm(site); apply(); });
+fillForm(site);
+if (params.get("try")) { $("#fPrice").value = "300"; $("#fOpen").value = "07:00"; $("#fTag").value = "Bread from a wood-fired oven, since 1987. Open late on Saturdays."; }
+if (params.get("bad")) { $("#fPrice").value = "0"; }
+apply();
+</script>
+</body>
+</html>

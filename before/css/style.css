@@ -1,0 +1,19 @@
+body { margin: 0; padding: 0; background: #d9c7a1; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; color: #8a7a5c; }
+a { color: #b08a4a; text-decoration: underline; }
+a:hover { color: #d4a85f; }
+h1 { font-family: "Times New Roman", Times, serif; font-size: 22px; color: #b9965a; font-weight: normal; margin: 0 0 10px 0; }
+h2 { font-family: "Times New Roman", Times, serif; font-size: 17px; color: #c0a06a; margin: 18px 0 6px 0; border-bottom: 1px dotted #c9b48a; }
+h3 { font-size: 12px; color: #a68c5b; margin: 12px 0 2px 0; }
+p { line-height: 17px; margin: 0 0 10px 0; }
+#wrapper { background: #fbf5e6; border: 1px solid #b9a273; }
+td.nav { background: #8c6b3a; text-align: center; font-size: 12px; font-weight: bold; padding: 7px 0; border-right: 1px solid #a98853; }
+td.nav a { color: #e6d3a8; text-decoration: none; }
+td.side { background: #f1e6cc; font-size: 10px; color: #a8966f; vertical-align: top; padding: 10px; border-left: 1px solid #d9c9a3; }
+td.footer { background: #cfc3a6; color: #9e9278; font-size: 10px; text-align: center; padding: 8px; }
+td.footer a { color: #8b7f66; }
+table.menutable { width: 100%; border-collapse: collapse; background: #fbf5e6; }
+table.menutable td { padding: 5px 6px; border-bottom: 1px solid #e3d5b2; font-size: 11px; color: #9a8a68; }
+table.menutable td.price { text-align: right; font-weight: bold; color: #b08a4a; width: 70px; }
+#slides { width: 580px; height: 387px; overflow: hidden; background: #e8d9b5; }
+.small { font-size: 10px; color: #b3a584; }
+.new { color: #d9a33a; font-weight: bold; }

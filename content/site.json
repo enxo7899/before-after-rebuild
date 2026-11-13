@@ -1,0 +1,106 @@
+{
+  "business": {
+    "name": "Furra Gjoni",
+    "type": "Bakery and café",
+    "tagline": "Bread from a wood-fired oven, since 1987",
+    "established": 1987,
+    "currency": "lek"
+  },
+  "contact": {
+    "street": "Rruga Kolë Idromeno 14",
+    "city": "Shkodër",
+    "postcode": "4001",
+    "country": "AL",
+    "phone": "+355 22 000 000",
+    "email": "furra@furragjoni.example",
+    "lat": 42.0693,
+    "lng": 19.5126
+  },
+  "hours": [
+    { "label": "Monday to Friday", "days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], "opens": "06:30", "closes": "20:00" },
+    { "label": "Saturday", "days": ["Saturday"], "opens": "07:00", "closes": "21:00" },
+    { "label": "Sunday", "days": ["Sunday"], "opens": "08:00", "closes": "14:00" }
+  ],
+  "home": {
+    "headline": "Warm bread, every morning, a few steps from the lake road.",
+    "intro": "Furra Gjoni is a family bakery and café in the old centre of Shkodër. We bake in the same wood-fired oven Gjon Gjoni built in 1987, and we open the doors at half past six so the first loaves are still warm when you walk in.",
+    "featuredTitle": "Out of the oven today",
+    "visitTitle": "Come by"
+  },
+  "menu": {
+    "title": "Menu",
+    "intro": "Everything is baked on the premises. Prices are in lek and include tax. Order a whole loaf or a tray by phone before 18:00 and we will have it ready at six-thirty the next morning.",
+    "categories": [
+      {
+        "id": "bread",
+        "name": "Bread",
+        "intro": "Baked in the wood-fired oven at five each morning.",
+        "items": [
+          { "name": "Bukë gjoni", "desc": "Our house white loaf, crisp crust, soft crumb. 700 g.", "price": 130, "featured": true },
+          { "name": "Bukë misri", "desc": "Cornbread the way Shkodër grandmothers bake it. 600 g.", "price": 150 },
+          { "name": "Bukë me thekër", "desc": "Rye and wheat sourdough, slow risen for 18 hours. 650 g.", "price": 220 },
+          { "name": "Simite me susam", "desc": "Sesame ring, baked twice a day.", "price": 60 }
+        ]
+      },
+      {
+        "id": "savoury",
+        "name": "Savoury",
+        "intro": "Hand-rolled filo, filled each morning.",
+        "items": [
+          { "name": "Byrek me spinaq", "desc": "Spinach and white cheese in thin filo. Per slice.", "price": 120, "featured": true },
+          { "name": "Byrek me mish", "desc": "Minced beef and onion. Per slice.", "price": 160 },
+          { "name": "Pite me kos", "desc": "Yoghurt pie with herbs. Per slice.", "price": 140 }
+        ]
+      },
+      {
+        "id": "sweet",
+        "name": "Sweet",
+        "intro": "Made by Drita, who has done the sweets since 1994.",
+        "items": [
+          { "name": "Trileçe", "desc": "Three-milk sponge with a caramel top.", "price": 250, "featured": true },
+          { "name": "Baklava", "desc": "Walnut and honey, six layers. Per piece.", "price": 100 },
+          { "name": "Kadaif", "desc": "Shredded pastry, walnuts, lemon syrup. Per piece.", "price": 110 },
+          { "name": "Kurabie", "desc": "Butter biscuit with a drop of quince jam.", "price": 50 }
+        ]
+      },
+      {
+        "id": "coffee",
+        "name": "Coffee and drinks",
+        "intro": "Served at the counter or at one of nine tables.",
+        "items": [
+          { "name": "Espresso", "desc": "Double shot of our house roast.", "price": 100 },
+          { "name": "Kafe me qumësht", "desc": "Espresso with steamed milk.", "price": 140 },
+          { "name": "Çaj mali", "desc": "Mountain tea from the Alps near Theth, by the pot.", "price": 150 },
+          { "name": "Boza", "desc": "Cold, lightly sour, a winter regular.", "price": 130 }
+        ]
+      }
+    ]
+  },
+  "about": {
+    "title": "Our story",
+    "paragraphs": [
+      "Gjon Gjoni opened the bakery in 1987 with one oven, a rented counter and a sack of flour his brother carried over from Lezhë. The oven is still the heart of the place.",
+      "Today his daughter Mira runs the front and the books, and his grandson Luka keeps the oven fire going before dawn. Drita, who joined in 1994, makes every tray of sweets by hand.",
+      "We use flour from mills in the Mat valley, butter from a dairy near Koplik, and honey from hives above Boga. We do not use improvers or pre-made dough."
+    ],
+    "facts": [
+      "Wood-fired oven, lit at 4:30 each morning",
+      "Nine tables inside, four on the pavement in summer",
+      "Free Wi-Fi, high chairs and a step-free entrance"
+    ],
+    "teamTitle": "Who is behind the counter"
+  },
+  "contactPage": {
+    "title": "Find us",
+    "intro": "We are on the pedestrian street between the old market and the lake road. Look for the green door and the smell of bread.",
+    "directions": "From the main square, walk down Rruga Kolë Idromeno for two minutes. We are on the left, opposite the pharmacy.",
+    "ordering": "Whole loaves, byrek trays and cakes can be ordered by phone or email. Orders for the next morning close at 18:00."
+  },
+  "images": {
+    "hero": { "alt": "Wooden shelves of round loaves above a glass counter of pastries in the bakery", "w": 1200, "h": 800 },
+    "bread": { "alt": "Three round loaves and a rye loaf on a wooden board with wheat stalks", "w": 1200, "h": 800 },
+    "pastry": { "alt": "A tray of baklava diamonds and squares of trileçe", "w": 1200, "h": 800 },
+    "cafe": { "alt": "Two coffee cups on a table by a window with hills and the Rozafa castle outside", "w": 1200, "h": 800 },
+    "map": { "alt": "Street map showing the bakery between the main square and the lake road", "w": 1200, "h": 800 }
+  }
+}

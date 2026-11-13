@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Edit site content | Furra Gjoni</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="Owner page: edit the text, prices and opening hours, then download the updated site.json.">
+<link rel="icon" href="data:,">
+<style>
+@font-face{font-family:"Young Serif";src:url(fonts/young-serif.woff2) format("woff2");font-display:swap}
+@font-face{font-family:Karla;src:url(fonts/karla.woff2) format("woff2");font-weight:200 800;font-display:swap}
+:root{--paper:#fbf6ee;--panel:#f3e9d9;--ink:#2a211a;--muted:#62523f;--line:#dccfb8;--accent:#a3412a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 1.0625rem/1.5 Karla,system-ui,sans-serif}
+.wrap{max-width:52rem;margin:0 auto;padding:0 1rem 6rem}
+h1,h2{font-family:"Young Serif",Georgia,serif;font-weight:400;line-height:1.15}
+h1{font-size:2rem;margin:1.6rem 0 .4rem}
+h2{font-size:1.35rem;margin:2.2rem 0 .6rem}
+a{color:var(--accent)}
+fieldset{border:1px solid var(--line);border-radius:6px;margin:0 0 1rem;padding:.8rem 1rem 1rem}
+legend{font-weight:700;padding:0 .4rem}
+label{display:block;font-weight:700;font-size:.95rem;margin:.7rem 0 .2rem}
+input[type=text],input[type=email],input[type=number],input[type=time],textarea{width:100%;font:inherit;padding:.55rem .65rem;border:1px solid #8a7a62;border-radius:5px;background:#fff;color:var(--ink)}
+textarea{min-height:5.5rem}
+.row{display:grid;gap:.6rem 1rem;grid-template-columns:1fr}
+@media(min-width:40rem){.row.three{grid-template-columns:2fr 1fr 1fr}.row.item{grid-template-columns:1.2fr 2fr 6rem}}
+.chk{display:flex;gap:.5rem;align-items:center;font-weight:400;margin-top:.4rem}
+.bar{position:sticky;bottom:0;background:var(--paper);border-top:1px solid var(--line);padding:.8rem 0;display:flex;flex-wrap:wrap;gap:.6rem 1rem;align-items:center}
+.btn{font:inherit;font-weight:700;background:var(--accent);color:#fff;border:0;border-radius:6px;padding:.7rem 1.2rem;cursor:pointer}
+.btn[disabled]{background:#8a7a62;cursor:not-allowed}
+.btn.alt{background:transparent;color:var(--accent);border:2px solid var(--accent)}
+#msg{margin:0;font-size:.95rem}
+#msg.bad{color:#9b1c1c;font-weight:700}
+#msg.ok{color:#1d6a3a}
+ol.steps{padding-left:1.2rem}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<p><a href="index.html">Back to the site</a></p>
+<h1>Edit your website</h1>
+<p>Change anything below, then press <b>Download site.json</b>. Replace <code>content/site.json</code> with the downloaded file and the site rebuilds itself (steps at the bottom). Nothing is sent anywhere: this page only reads and writes a file on your computer.</p>
+<noscript><p><b>This page needs JavaScript to show the form.</b> The public site itself does not.</p></noscript>
+<form id="form" aria-label="Site content" novalidate></form>
+<h2>How the change goes live</h2>
+<ol class="steps">
+<li>Press <b>Download site.json</b> (it only enables when every field is valid).</li>
+<li>On GitHub, open <code>content/site.json</code>, choose Edit, paste the new file contents and commit. Or drag the file into the <code>content</code> folder of the repository.</li>
+<li>The deploy workflow runs <code>npm run build</code> and publishes the update, usually within a minute or two. On Netlify the same happens through its build command.</li>
+</ol>
+<div class="bar"><button class="btn" id="dl" type="button">Download site.json</button><button class="btn alt" id="reset" type="button">Discard changes</button><p id="msg" role="status"></p></div>
+</div>
+<script type="module">
+import { validateSite } from "./validate.mjs";
+const form = document.getElementById("form"), msg = document.getElementById("msg"), dl = document.getElementById("dl");
+let original, site;
+const get = (o, p) => p.split(".").reduce((a, k) => a?.[k], o);
+const set = (o, p, v) => { const ks = p.split("."); const last = ks.pop(); ks.reduce((a, k) => a[k], o)[last] = v; };
+const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
+const field = (label, path, type = "text") => `<label for="${path}">${label}</label><input id="${path}" type="${type}" data-path="${path}" value="${esc(get(site, path))}">`;
+const area = (label, path) => `<label for="${path}">${label}</label><textarea id="${path}" data-path="${path}">${esc(get(site, path))}</textarea>`;
+function build() {
+  let h = `<fieldset><legend>Business</legend>${field("Name", "business.name")}${field("Tagline", "business.tagline")}</fieldset>`;
+  h += `<fieldset><legend>Contact</legend>${field("Street", "contact.street")}${field("Phone", "contact.phone")}${field("Email", "contact.email", "email")}</fieldset>`;
+  h += `<fieldset><legend>Opening hours</legend>${site.hours.map((x, i) => `<div class="row three"><div><label for="hours.${i}.label">Days</label><input id="hours.${i}.label" type="text" data-path="hours.${i}.label" value="${esc(x.label)}"></div><div><label for="hours.${i}.opens">Opens</label><input id="hours.${i}.opens" type="time" data-hours="${i}" data-k="opens" value="${esc(x.opens)}" ${x.opens ? "" : "disabled"}></div><div><label for="hours.${i}.closes">Closes</label><input id="hours.${i}.closes" type="time" data-hours="${i}" data-k="closes" value="${esc(x.closes)}" ${x.opens ? "" : "disabled"}></div></div><label class="chk"><input type="checkbox" data-closed="${i}" ${x.opens ? "" : "checked"}> Closed on these days</label>`).join("")}</fieldset>`;
+  h += `<fieldset><legend>Home page</legend>${field("Headline", "home.headline")}${area("Introduction", "home.intro")}</fieldset>`;
+  site.menu.categories.forEach((k, ci) => { h += `<fieldset><legend>Menu: ${esc(k.name)}</legend>${k.items.map((it, ii) => `<div class="row item"><div><label for="m${ci}${ii}n">Name</label><input id="m${ci}${ii}n" type="text" data-path="menu.categories.${ci}.items.${ii}.name" value="${esc(it.name)}"></div><div><label for="m${ci}${ii}d">Description</label><input id="m${ci}${ii}d" type="text" data-path="menu.categories.${ci}.items.${ii}.desc" value="${esc(it.desc)}"></div><div><label for="m${ci}${ii}p">Price (${esc(site.business.currency)})</label><input id="m${ci}${ii}p" type="number" min="1" step="1" data-num="1" data-path="menu.categories.${ci}.items.${ii}.price" value="${esc(it.price)}"></div></div>`).join("")}</fieldset>`; });
+  h += `<fieldset><legend>Our story</legend>${site.about.paragraphs.map((_, i) => area(`Paragraph ${i + 1}`, `about.paragraphs.${i}`)).join("")}</fieldset>`;
+  form.innerHTML = h;
+}
+function refresh() {
+  const r = validateSite(site);
+  dl.disabled = !r.ok;
+  msg.className = r.ok ? "ok" : "bad";
+  msg.textContent = r.ok ? "All fields look good." : r.errors[0] + (r.errors.length > 1 ? ` (and ${r.errors.length - 1} more)` : "");
+}
+form.addEventListener("input", (e) => {
+  const t = e.target;
+  if (t.dataset.closed !== undefined) { const h = site.hours[+t.dataset.closed]; h.opens = t.checked ? null : original.hours[+t.dataset.closed].opens || "08:00"; h.closes = t.checked ? null : original.hours[+t.dataset.closed].closes || "14:00"; for (const k of ["opens", "closes"]) { const el = document.getElementById(`hours.${t.dataset.closed}.${k}`); el.disabled = t.checked; el.value = h[k] || ""; } }
+  else if (t.dataset.hours !== undefined) site.hours[+t.dataset.hours][t.dataset.k] = t.value;
+  else if (t.dataset.path) set(site, t.dataset.path, t.dataset.num ? (t.value === "" ? NaN : Number(t.value)) : t.value);
+  refresh();
+});
+dl.addEventListener("click", () => {
+  const blob = new Blob([JSON.stringify(site, null, 2) + "\n"], { type: "application/json" });
+  const a = Object.assign(document.createElement("a"), { href: URL.createObjectURL(blob), download: "site.json" });
+  a.click(); URL.revokeObjectURL(a.href);
+  msg.className = "ok"; msg.textContent = "Downloaded. Now replace content/site.json with it.";
+});
+document.getElementById("reset").addEventListener("click", () => { site = structuredClone(original); build(); refresh(); });
+try { original = await (await fetch("site.json")).json(); site = structuredClone(original); build(); refresh(); }
+catch (err) { form.innerHTML = "<p><b>Could not load site.json.</b> Open this page through a web server (for example <code>npm run dev</code>), not as a file.</p>"; dl.disabled = true; }
+</script>
+</body>
+</html>
